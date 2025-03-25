@@ -1,0 +1,41 @@
+# 🔙 Backend Node.js
+/backend/node_modules/
+backend/.env
+backend/.DS_Store
+
+# ⚛️ Frontend React
+/frontend/node_modules/
+frontend/.env
+frontend/build/
+frontend/.DS_Store
+
+# 🧪 Tests
+/tests/**/coverage/
+tests/**/__pycache__/
+tests/**/.pytest_cache/
+
+# 🧾 Logs
+*.log
+
+# 🖥️ Mac & système
+.DS_Store
+Thumbs.db
+
+# 🐳 Docker (si tu ajoutes ça plus tard)
+*.pid
+*.seed
+*.bak
+
+# 📦 Éditeurs de code
+.vscode/
+.idea/
+
+# 💥 Env Python (si utilisé pour scripts)
+venv/
+.env
+
+# 🔐 Jetons et secrets (ne jamais versionner)
+*.pem
+*.key
+*.crt
+*.cert
