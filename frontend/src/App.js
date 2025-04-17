@@ -1,12 +1,15 @@
-import React from 'react';
-import Home from './Home'
-import CreateSalon from './createSalon';  // Chemin relatif en fonction de votre structure
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import CreateSalon from "./createSalon";
 
 function App() {
   return (
-    <div>
-      <Home />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/createSalon" element={<CreateSalon />} />
+      </Routes>
+    </Router>
   );
 }
 

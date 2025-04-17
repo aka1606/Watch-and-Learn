@@ -3,12 +3,18 @@ import './Home.css';
 import logo from './assets/LOGO.png';
 import illustration from './assets/AcceuilPhoto.png';
 import Inscription from "./forms/Inscription";
+import Connexion from "./forms/connexion"; // <-- Importer Connexion.js
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const toggleSignupModal = () => {
+    setShowSignupModal(!showSignupModal);
+  };
+
+  const toggleLoginModal = () => {
+    setShowLoginModal(!showLoginModal);
   };
 
   return (
@@ -17,8 +23,8 @@ const Home = () => {
       <div className="header">
         <img src={logo} alt="Watch & Learn Logo" className="logo-header" />
         <div className="header-buttons">
-          <button className="btn btn-login">Connexion</button>
-          <button className="btn btn-signup" onClick={toggleModal}>Inscription</button>
+          <button className="btn btn-login" onClick={toggleLoginModal}>Connexion</button>
+          <button className="btn btn-signup" onClick={toggleSignupModal}>Inscription</button>
         </div>
       </div>
 
@@ -37,12 +43,22 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Popup modal pour le formulaire d'inscription */}
-      {showModal && (
-        <div className="modal-overlay" onClick={toggleModal}>
+      {/* Popup modal pour l'inscription */}
+      {showSignupModal && (
+        <div className="modal-overlay" onClick={toggleSignupModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className="close-btn" onClick={toggleModal}>&times;</span>
+            <span className="close-btn" onClick={toggleSignupModal}>&times;</span>
             <Inscription />
+          </div>
+        </div>
+      )}
+
+      {/* Popup modal pour la connexion */}
+      {showLoginModal && (
+        <div className="modal-overlay" onClick={toggleLoginModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <span className="close-btn" onClick={toggleLoginModal}>&times;</span>
+            <Connexion />
           </div>
         </div>
       )}
