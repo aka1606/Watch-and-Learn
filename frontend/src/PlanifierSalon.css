@@ -1,0 +1,86 @@
+/* Conteneur de la boîte du formulaire dans le popup */
+.planifier-salon-box {
+    background: linear-gradient(135deg, #4e5d94, #36393F);
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: left;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
+    color: white;
+  }
+  
+  /* Titre */
+  .planifier-salon-box h1 {
+    color: #F39C12;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Groupes de champs */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background-color: #ecf0f1;
+    color: #333;
+  }
+  
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #7f8c8d;
+  }
+  
+  /* Bouton de soumission */
+  button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #F39C12;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #D35400;
+  }
+  
+  /* Message de réponse */
+  .response-message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Bouton de fermeture du popup */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover {
+    color: #F39C12;
+  }

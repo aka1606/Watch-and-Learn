@@ -1,0 +1,61 @@
+/* SalonPage.css ou createSalon.css */
+
+/* Conteneur principal de la page */
+.salon-container {
+    width: 100%;
+    height: 100vh;
+    background: url('./assets/Background.png') no-repeat center center;
+    background-size: cover;
+    color: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Boutons */
+  .buttons-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .salon-btn {
+    background-color: #F39C12;
+    color: #ffffff;
+  }
+  
+  .salon-btn:hover {
+    background-color: #D35400;
+  }
+  
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    position: relative;
+    /* Note : le design du contenu du modal sera principalement défini dans PlanifierSalon.css */
+  }
+  
