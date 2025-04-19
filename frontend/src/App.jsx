@@ -1,12 +1,8 @@
 import React from "react";
-import YoutubeSearch from "./components/YoutubeSearch"; // Import du composant YoutubeSearch
+import YoutubeTestPage from "./tests/Youtube"; // Chemin vers ta page de test
 
 const App = () => {
-  return (
-    <div>
-      <YoutubeSearch /> {/* Affiche le composant YoutubeSearch */}
-    </div>
-  );
+  return <YoutubeTestPage />;
 };
 
 export default App;
