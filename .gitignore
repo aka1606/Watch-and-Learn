@@ -1,40 +1,43 @@
-# 🔙 Backend Node.js
-/backend/node_modules/
-backend/.env
-backend/.DS_Store
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# ⚛️ Frontend React
-/frontend/node_modules/
-frontend/.env
-frontend/build/
-frontend/.DS_Store
-
-# 🧪 Tests
-/tests/**/coverage/
-tests/**/__pycache__/
-tests/**/.pytest_cache/
-
-# 🧾 Logs
+# Logs
+logs/
 *.log
+*.gz
 
-# 🖥️ Mac & système
+# Environnements
+.env
+.env.local
+.env.*.local
+
+# Build
+build/
+dist/
+out/
+
+# Tests
+coverage/
+*.lcov
+
+# IDEs et éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Système
 .DS_Store
 Thumbs.db
 
-# 🐳 Docker (si tu ajoutes ça plus tard)
+# Docker
 *.pid
 *.seed
 *.bak
 
-# 📦 Éditeurs de code
-.vscode/
-.idea/
-
-# 💥 Env Python (si utilisé pour scripts)
-venv/
-.env
-
-# 🔐 Jetons et secrets (ne jamais versionner)
+# Secrets
 *.pem
 *.key
 *.crt
