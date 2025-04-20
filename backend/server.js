@@ -1,25 +1,36 @@
 const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const youtubeRoutes = require("./Routes/youtubeRoutes"); // Chemin correct
-
-dotenv.config(); // Chargement des variables d'environnement
+const http = require("http");
+const { Server } = require("socket.io");
+require("dotenv").config();
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
-// Middleware CORS pour permettre les requêtes entre serveurs
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Frontend React (assurez-vous de cette URL)
-  })
-);
+// Middleware
+app.use(express.json());
 
-app.use(express.json()); // Pour parser le JSON des requêtes entrantes
+// Exemple de route
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
 
-// Routes
-app.use("/api/youtube", youtubeRoutes); // Intégration des routes YouTube
+// Gestion des événements Socket.IO
+io.on("connection", (socket) => {
+  console.log("Client connecté :", socket.id);
 
+  socket.on("disconnect", () => {
+    console.log("Client déconnecté :", socket.id);
+  });
+});
+
+// Démarrage du serveur
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Serveur démarré sur le port ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`✅ Backend démarré sur le port ${PORT}`);
 });
