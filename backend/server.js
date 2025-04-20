@@ -1,7 +1,6 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-const youtubeRoutes = require("./Routes/youtubeRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -14,7 +13,7 @@ const io = new Server(server, {
 });
 
 app.use(express.json());
-app.use("/api/youtube", youtubeRoutes);
+app.use("/api/youtube", require("./Routes/youtubeRoutes"));
 
 io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
@@ -36,5 +35,5 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log();
+  console.log(`Server running on port ${PORT}`);
 });

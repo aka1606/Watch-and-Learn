@@ -25,11 +25,18 @@ Watch-and-Learn est une application interactive conçue pour faciliter l'apprent
    ```
 2. Installez les dépendances :
    ```bash
-   cd Watch-and-Learn
+   cd frontend
+   npm install
+   ```
+   ```bash
+   cd backend
    npm install
    ```
 3. Lancez l'application :
-   ```bash
+   ```frontend
+   npm run dev
+   ```
+   ```backend
    npm start
    ```
 
