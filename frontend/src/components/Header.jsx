@@ -1,12 +1,14 @@
-import React from 'react';
+import React from "react";
+import YoutubeSearchBar from "./YoutubeSearchBar";
 
-function Header() {
+function Header({ query, setQuery, handleSearch }) {
   return (
     <div className="header">
-      <div className="search-bar">
-        <input type="text" placeholder="Rechercher une vidéo" />
-        <button><i className="fas fa-search"></i></button>
-      </div>
+      <YoutubeSearchBar
+        query={query}
+        setQuery={setQuery}
+        handleSearch={handleSearch}
+      />
       <div className="header-buttons">
         <button>PlayList</button>
         <button>Historique</button>

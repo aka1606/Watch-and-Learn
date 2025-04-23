@@ -1,18 +1,31 @@
-/* App.css */
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+}
 
-body, html, #root {
+body {
   margin: 0;
+  overflow: hidden;
+  background-color: #0d0d1a;
+}
+
+html,
+#root {
   padding: 0;
+  margin: 0;
   height: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .app {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
-  display: flex;
 }
 
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 250px;
   background-color: #0c1a3e;
@@ -21,15 +34,7 @@ body, html, #root {
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-}
-
-.logo {
-  width: 150px;
-  margin: 0 auto 30px auto;
-}
-
-.section {
-  margin-bottom: 30px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .section h2 {
@@ -37,32 +42,28 @@ body, html, #root {
   color: orange;
   margin-bottom: 15px;
 }
-
 .section ul {
   list-style: none;
   padding: 0;
 }
-
 .section li {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: color 0.3s;
 }
-
 .section li:hover {
   color: orange;
 }
 
+/* ===== BOTTOM SIDEBAR ===== */
 .bottom-icons {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
 }
-
 .profile {
   background-color: orange;
   color: white;
@@ -75,98 +76,26 @@ body, html, #root {
   justify-content: center;
   border-radius: 50%;
 }
-
 .icon {
   font-size: 24px;
   cursor: pointer;
-  transition: 0.3s;
 }
-
 .icon:hover {
   color: orange;
 }
-/* Boutons flottants corrects */
-.floating-buttons {
-  position: fixed;
-  bottom: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 100px; /* <- avant c'était 40px, maintenant 100px */
-  z-index: 1000;
-}
 
-
-/* boutons a coté du sidebar */
-.left-side {
-  margin-left: 250px; /* même largeur que ton sidebar */
-  display: flex;
-  gap: 20px;
-}
-
-/* bouton tout a droite */
-.right-side {
-  margin-right: 150px; /* Avancer le bouton message plus à gauche */
-}
-
-
-.round-orange-button {
-  background-color: orange;
-  border: none;
-  border-radius: 50%;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: white;
-  font-size: 22px;
-  transition: background-color 0.3s;
-}
-
-.round-orange-button:hover {
-  background-color: darkorange;
-}
-
-/* --------- HEADER ----------- */
+/* ===== HEADER ===== */
 .header {
   position: fixed;
   top: 0;
   left: 250px;
   right: 0;
   height: 70px;
-  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 50px; /* plus de padding pour respirer */
+  padding: 0 60px;
   z-index: 999;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  background-color: #ccc;
-  border-radius: 8px;
-  padding: 5px 10px;
-  width: 450px; /* largeur plus large */
-  margin-left: 60px; /* on décale un peu plus la barre à droite */
-}
-
-.search-bar input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.search-bar button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
 }
 
 .header-buttons {
@@ -174,7 +103,6 @@ body, html, #root {
   align-items: center;
   gap: 30px;
 }
-
 .header-buttons button {
   background: none;
   border: none;
@@ -183,21 +111,258 @@ body, html, #root {
   cursor: pointer;
   position: relative;
   padding-bottom: 5px;
-  transition: color 0.3s;
 }
-
-/* Quand on passe la souris dessus */
 .header-buttons button:hover {
   color: orange;
 }
-
 .header-buttons button:hover::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   height: 2px;
   width: 100%;
   background-color: orange;
-  transition: 0.3s;
+}
+
+/* ===== SEARCH BAR STYLE (YouTube style) ===== */
+.custom-search-bar-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 700px;
+}
+
+.youtube-search-bar {
+  display: flex;
+  width: 100%;
+  background-color: white;
+  border-radius: 25px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.youtube-search-bar input {
+  flex-grow: 1;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  outline: none;
+  color: #333;
+  background-color: white;
+}
+
+.youtube-search-bar button {
+  background-color: #f8f8f8;
+  border: none;
+  padding: 0 20px;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+}
+.youtube-search-bar button:hover {
+  background-color: #e2e2e2;
+}
+
+/* ===== FLOATING BUTTONS ===== */
+.floating-buttons {
+  position: fixed;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 100px;
+  z-index: 1000;
+}
+.left-side {
+  margin-left: 250px;
+  display: flex;
+  gap: 20px;
+}
+.right-side {
+  margin-right: 150px;
+}
+.round-orange-button {
+  background-color: orange;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+.round-orange-button:hover {
+  background-color: darkorange;
+}
+
+/* ===== YOUTUBE WRAPPER CENTRÉ ===== */
+.youtube-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 40px 40px 40px;
+}
+
+/* ===== YOUTUBE BOX ===== */
+.youtube-box {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+}
+
+/* ===== PLAYER ===== */
+.youtube-player-wrapper iframe {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+  border: none;
+}
+
+/* ===== VIDEO LIST ===== */
+.video-list-scrollable {
+  overflow-y: auto;
+  max-height: 280px;
+}
+.video-list-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.video-list-scrollable::-webkit-scrollbar-thumb {
+  background-color: orange;
+  border-radius: 4px;
+}
+.video-list-scrollable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.video-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+.video-item:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+.video-thumbnail {
+  width: 120px;
+  border-radius: 8px;
+}
+.video-item p {
+  font-size: 15px;
+  color: #fff;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.video-item {
+  animation: fadeInUp 0.3s ease-in;
+}
+
+/* ===== HAMBURGER MENU ===== */
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: orange;
+  border: none;
+  color: white;
+  font-size: 22px;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 999;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header {
+    left: 0;
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
+    padding: 10px 20px;
+  }
+
+  .custom-search-bar-container {
+    margin-left: 0;
+    max-width: 90%;
+  }
+
+  .youtube-wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 20px;
+  }
+
+  .youtube-box {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .youtube-player-wrapper iframe {
+    height: 220px;
+  }
+
+  .video-item {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .video-thumbnail {
+    width: 90px;
+  }
+
+  .floating-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+    right: 10px;
+    left: auto;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+  }
 }
