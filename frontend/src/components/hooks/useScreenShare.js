@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useScreenShare = (socket) => {
+const useScreenShare = () => {
   const [isSharing, setIsSharing] = useState(false);
   const [stream, setStream] = useState(null);
 
@@ -15,7 +15,6 @@ const useScreenShare = (socket) => {
       setIsSharing(true);
 
       screenStream.getTracks()[0].onended = () => stopScreenShare();
-      socket?.emit("start-screen-share");
     } catch (error) {
       console.error("Erreur lors du partage d'écran :", error);
     }
@@ -26,13 +25,12 @@ const useScreenShare = (socket) => {
       stream.getTracks().forEach((track) => track.stop());
       setStream(null);
       setIsSharing(false);
-      socket?.emit("stop-screen-share");
     }
   };
 
   useEffect(() => {
     return () => {
-      stopScreenShare(); // cleanup
+      stopScreenShare(); // Nettoyage lors du démontage
     };
   }, []);
 
