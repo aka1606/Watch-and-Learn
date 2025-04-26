@@ -1,51 +1,80 @@
-/* ===== GLOBAL ===== */
-* {
-  box-sizing: border-box;
+/* =================== */
+/* === VARIABLES === */
+/* =================== */
+:root {
+  --primary: #4f46e5; /* Violet modern */
+  --primary-hover: #6366f1;
+  --background: #0d0d1a;
+  --background-sidebar: #0c1a3e;
+  --accent: orange;
+  --white: #ffffff;
+  --gray: #e2e2e2;
+  --dark-gray: #1e1e2f;
 }
 
-body {
+/* =================== */
+/* === GLOBAL RESET === */
+/* =================== */
+* {
+  box-sizing: border-box;
+  padding: 0;
   margin: 0;
-  overflow: hidden;
-  background-color: #0d0d1a;
 }
 
 html,
-#root {
-  padding: 0;
+body {
   margin: 0;
-  height: 100%;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden; /* 🚀 Seulement sur l'axe horizontal */
+  background-color: var(--background);
 }
 
+#root {
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background);
+  overflow-x: hidden;
+}
+
+/* =================== */
+/* === LAYOUT === */
+/* =================== */
 .app {
   display: flex;
   min-height: 100vh;
-  width: 100%;
+  margin-left: 250px; /* 🚀 Laisse la place pour la sidebar */
+  width: calc(100% - 250px);
   background-size: cover;
   background-position: center;
 }
 
-/* ===== SIDEBAR ===== */
+/* =================== */
+/* === SIDEBAR === */
+/* =================== */
 .sidebar {
   width: 250px;
-  background-color: #0c1a3e;
-  color: white;
+  background-color: var(--background-sidebar);
+  color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  transition: transform 0.3s ease-in-out;
+  height: 100vh;
+  position: fixed; /* 🚀 Fixé proprement */
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .section h2 {
   font-size: 20px;
-  color: orange;
+  color: var(--accent);
   margin-bottom: 15px;
 }
+
 .section ul {
   list-style: none;
-  padding: 0;
 }
+
 .section li {
   display: flex;
   align-items: center;
@@ -54,19 +83,21 @@ html,
   cursor: pointer;
   transition: color 0.3s;
 }
+
 .section li:hover {
-  color: orange;
+  color: var(--accent);
 }
 
-/* ===== BOTTOM SIDEBAR ===== */
+/* Bottom sidebar icons */
 .bottom-icons {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .profile {
-  background-color: orange;
-  color: white;
+  background-color: var(--accent);
+  color: var(--white);
   width: 36px;
   height: 36px;
   font-weight: bold;
@@ -76,21 +107,26 @@ html,
   justify-content: center;
   border-radius: 50%;
 }
+
 .icon {
   font-size: 24px;
   cursor: pointer;
 }
+
 .icon:hover {
-  color: orange;
+  color: var(--accent);
 }
 
-/* ===== HEADER ===== */
+/* =================== */
+/* === HEADER === */
+/* =================== */
 .header {
   position: fixed;
   top: 0;
   left: 250px;
   right: 0;
   height: 70px;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -103,18 +139,21 @@ html,
   align-items: center;
   gap: 30px;
 }
+
 .header-buttons button {
   background: none;
   border: none;
+  color: var(--white);
   font-size: 18px;
-  color: white;
   cursor: pointer;
   position: relative;
   padding-bottom: 5px;
 }
+
 .header-buttons button:hover {
-  color: orange;
+  color: var(--accent);
 }
+
 .header-buttons button:hover::after {
   content: "";
   position: absolute;
@@ -122,50 +161,56 @@ html,
   bottom: 0;
   height: 2px;
   width: 100%;
-  background-color: orange;
+  background-color: var(--accent);
 }
 
-/* ===== SEARCH BAR STYLE (YouTube style) ===== */
+/* =================== */
+/* === SEARCH BAR === */
+/* =================== */
 .custom-search-bar-container {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  max-width: 700px;
+  max-width: 600px;
 }
 
 .youtube-search-bar {
   display: flex;
   width: 100%;
-  background-color: white;
-  border-radius: 25px;
+  background-color: var(--dark-gray);
+  border-radius: 9999px;
   overflow: hidden;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--gray);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .youtube-search-bar input {
   flex-grow: 1;
+  padding: 12px 20px;
+  background: transparent;
   border: none;
-  padding: 10px 15px;
-  font-size: 16px;
   outline: none;
-  color: #333;
-  background-color: white;
+  color: var(--white);
+  font-size: 16px;
 }
 
 .youtube-search-bar button {
-  background-color: #f8f8f8;
+  background-color: var(--primary);
   border: none;
   padding: 0 20px;
-  color: #333;
-  font-size: 16px;
+  color: var(--white);
+  font-size: 18px;
   cursor: pointer;
-}
-.youtube-search-bar button:hover {
-  background-color: #e2e2e2;
+  transition: background 0.3s;
 }
 
-/* ===== FLOATING BUTTONS ===== */
+.youtube-search-bar button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* =================== */
+/* === FLOATING BUTTONS === */
+/* =================== */
 .floating-buttons {
   position: fixed;
   bottom: 30px;
@@ -175,28 +220,34 @@ html,
   padding: 0 100px;
   z-index: 1000;
 }
+
 .left-side {
   margin-left: 250px;
   display: flex;
   gap: 20px;
 }
+
 .right-side {
   margin-right: 150px;
 }
+
 .round-orange-button {
-  background-color: orange;
+  background-color: var(--accent);
   border: none;
   border-radius: 50%;
   padding: 15px;
-  color: white;
+  color: var(--white);
   font-size: 22px;
   cursor: pointer;
 }
+
 .round-orange-button:hover {
   background-color: darkorange;
 }
 
-/* ===== YOUTUBE WRAPPER CENTRÉ ===== */
+/* =================== */
+/* === YOUTUBE WRAPPER === */
+/* =================== */
 .youtube-wrapper {
   flex: 1;
   display: flex;
@@ -205,7 +256,6 @@ html,
   padding: 100px 40px 40px 40px;
 }
 
-/* ===== YOUTUBE BOX ===== */
 .youtube-box {
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
@@ -220,7 +270,9 @@ html,
   overflow: hidden;
 }
 
-/* ===== PLAYER ===== */
+/* =================== */
+/* === PLAYER === */
+/* =================== */
 .youtube-player-wrapper iframe {
   width: 100%;
   height: 400px;
@@ -228,21 +280,23 @@ html,
   border: none;
 }
 
-/* ===== VIDEO LIST ===== */
+/* =================== */
+/* === VIDEO LIST === */
+/* =================== */
 .video-list-scrollable {
   overflow-y: auto;
   max-height: 280px;
 }
+
 .video-list-scrollable::-webkit-scrollbar {
   width: 8px;
 }
+
 .video-list-scrollable::-webkit-scrollbar-thumb {
-  background-color: orange;
+  background-color: var(--accent);
   border-radius: 4px;
 }
-.video-list-scrollable::-webkit-scrollbar-track {
-  background-color: transparent;
-}
+
 .video-item {
   display: flex;
   gap: 15px;
@@ -254,53 +308,27 @@ html,
   padding: 10px;
   transition: all 0.2s ease;
 }
+
 .video-item:hover {
   background-color: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px);
 }
+
 .video-thumbnail {
   width: 120px;
   border-radius: 8px;
 }
+
 .video-item p {
   font-size: 15px;
-  color: #fff;
+  color: var(--white);
   margin: 0;
   font-weight: 500;
 }
 
-/* ===== ANIMATION ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.video-item {
-  animation: fadeInUp 0.3s ease-in;
-}
-
-/* ===== HAMBURGER MENU ===== */
-.menu-toggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: orange;
-  border: none;
-  color: white;
-  font-size: 22px;
-  border-radius: 5px;
-  padding: 8px 12px;
-  cursor: pointer;
-  display: none;
-}
-
-/* ===== RESPONSIVE ===== */
+/* =================== */
+/* === RESPONSIVE === */
+/* =================== */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
@@ -345,11 +373,6 @@ html,
 
   .youtube-player-wrapper iframe {
     height: 220px;
-  }
-
-  .video-item {
-    flex-direction: row;
-    align-items: center;
   }
 
   .video-thumbnail {
