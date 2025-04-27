@@ -13,33 +13,37 @@ import {
 function Sidebar() {
   return (
     <aside className="sidebar">
-      <img src={Logo} alt="Logo Watch & Learn" className="logo" />
-
-      <div className="section">
-        <h2>Salon</h2>
-        <ul>
-          <li>
-            <FaChalkboardTeacher /> Salon Math
-          </li>
-          <li>
-            <FaBookOpen /> Salon Physique
-          </li>
-          <li>
-            <FaLaptopCode /> Salon Dev
-          </li>
-          <li>
-            <FaRobot /> Salon IA
-          </li>
-        </ul>
+      <div className="logo-container">
+        <img src={Logo} alt="Logo" />
       </div>
 
-      <div className="section">
-        <h2>Agenda</h2>
-        <ul>
-          <li>
-            <FaCalendarAlt /> Calendrier
-          </li>
-        </ul>
+      <div>
+        <div className="section">
+          <h2>Salon</h2>
+          <ul>
+            <li>
+              <FaChalkboardTeacher /> Salon Math
+            </li>
+            <li>
+              <FaBookOpen /> Salon Physique
+            </li>
+            <li>
+              <FaLaptopCode /> Salon Dev
+            </li>
+            <li>
+              <FaRobot /> Salon IA
+            </li>
+          </ul>
+        </div>
+
+        <div className="section">
+          <h2>Agenda</h2>
+          <ul>
+            <li>
+              <FaCalendarAlt /> Calendrier
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div className="bottom-icons">

@@ -18,7 +18,6 @@ function App() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [nextPageToken, setNextPageToken] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
   const videoListRef = useRef(null);
@@ -32,9 +31,9 @@ function App() {
     try {
       setError("");
       setLoading(true);
-      setVideos([]); // 🔥 Reset des anciennes vidéos
-      setNextPageToken(null); // 🔥 Reset du token
-      setHasSearched(false); // 🔥 Reset avant
+      setVideos([]);
+      setNextPageToken(null);
+      setHasSearched(false);
 
       const response = await axios.get(
         `http://localhost:5000/api/youtube/videos`,
@@ -45,7 +44,6 @@ function App() {
       setNextPageToken(response.data.nextPageToken);
       setHasSearched(true);
 
-      // Scroll en haut après recherche
       if (videoListRef.current) {
         videoListRef.current.scrollTop = 0;
       }
@@ -93,13 +91,7 @@ function App() {
 
   return (
     <div className="app" style={{ backgroundImage: `url(${Background})` }}>
-      <button
-        className="menu-toggle"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        ☰
-      </button>
-      <Sidebar isOpen={isSidebarOpen} />
+      <Sidebar />
       <Header query={query} setQuery={setQuery} handleSearch={handleSearch} />
       <FloatingButtons />
 
@@ -109,8 +101,8 @@ function App() {
             <YoutubePlayer videoId={selectedVideo} />
           </div>
 
-          {error && <p className="text-red-400 mt-4">{error}</p>}
-          {loading && <p className="text-gray-400 mt-4">Chargement...</p>}
+          {error && <p className="error-text">{error}</p>}
+          {loading && <p className="loading-text">Chargement...</p>}
 
           <div className="video-list-scrollable" ref={videoListRef}>
             <YoutubeVideoList
@@ -119,19 +111,8 @@ function App() {
               hasSearched={hasSearched}
             />
             {nextPageToken && !loading && hasSearched && (
-              <div style={{ textAlign: "center", margin: "20px 0" }}>
-                <button
-                  onClick={loadMore}
-                  style={{
-                    background: "transparent",
-                    border: "1px solid orange",
-                    color: "orange",
-                    padding: "6px 14px",
-                    borderRadius: "12px",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
+              <div className="load-more-container">
+                <button onClick={loadMore} className="load-more-button">
                   Charger plus
                 </button>
               </div>

@@ -1,15 +1,29 @@
-import React from 'react';
-import { FaFileAlt, FaClipboardList, FaCommentDots } from 'react-icons/fa';
+import React from "react";
+import {
+  FaFileAlt,
+  FaClipboardList,
+  FaCommentDots,
+  FaHive,
+} from "react-icons/fa";
 
 function FloatingButtons() {
   return (
     <div className="floating-buttons">
-      <div className="left-side">
-        <button className="round-orange-button"><FaFileAlt /></button>
-        <button className="round-orange-button"><FaClipboardList /></button>
-      </div>
-      <div className="right-side">
-        <button className="round-orange-button"><FaCommentDots /></button>
+      <div className="fab-container">
+        <button className="main-fab">
+          <FaHive />
+        </button>
+        <div className="fab-options">
+          <button className="option-button" data-tooltip="Messagerie">
+            <FaCommentDots />
+          </button>
+          <button className="option-button" data-tooltip="Fichiers">
+            <FaFileAlt />
+          </button>
+          <button className="option-button" data-tooltip="Répertoire">
+            <FaClipboardList />
+          </button>
+        </div>
       </div>
     </div>
   );

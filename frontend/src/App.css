@@ -1,259 +1,254 @@
-/* =================== */
+/* ==================== */
 /* === VARIABLES === */
-/* =================== */
+/* ==================== */
 :root {
-  --primary: #4f46e5; /* Violet modern */
-  --primary-hover: #6366f1;
-  --background: #0d0d1a;
-  --background-sidebar: #0c1a3e;
-  --accent: orange;
-  --white: #ffffff;
+  --primary-color: #4f46e5;
+  --background-color: #0d0d1a;
+  --sidebar-color: #0c1a3e;
+  --accent-color: orange;
+  --text-color: #ffffff;
   --gray: #e2e2e2;
-  --dark-gray: #1e1e2f;
 }
 
-/* =================== */
-/* === GLOBAL RESET === */
-/* =================== */
+/* ==================== */
+/* === RESET GLOBAL === */
+/* ==================== */
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
-body {
-  margin: 0;
-  overflow-x: hidden; /* 🚀 Seulement sur l'axe horizontal */
-  background-color: var(--background);
-}
-
+body,
 #root {
   height: 100%;
+  width: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--background);
+  background-color: var(--background-color);
   overflow-x: hidden;
 }
 
-/* =================== */
+/* ==================== */
 /* === LAYOUT === */
-/* =================== */
+/* ==================== */
 .app {
   display: flex;
   min-height: 100vh;
-  margin-left: 250px; /* 🚀 Laisse la place pour la sidebar */
-  width: calc(100% - 250px);
   background-size: cover;
   background-position: center;
 }
 
-/* =================== */
-/* === SIDEBAR === */
-/* =================== */
+/* ==================== */
+/* === SIDEBAR FINALISÉ */
+/* ==================== */
 .sidebar {
-  width: 250px;
-  background-color: var(--background-sidebar);
-  color: var(--white);
+  width: 260px;
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 13, 26, 0.85) 0%,
+    rgba(13, 13, 26, 0.95) 100%
+  );
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  height: 100vh;
-  position: fixed; /* 🚀 Fixé proprement */
-  left: 0;
+  padding: 30px 20px;
+  position: fixed;
   top: 0;
+  left: 0;
   bottom: 0;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  z-index: 11;
+
+  /* === Animation Slide + Fade + Zoom === */
+  transform: translateX(-40px) scale(0.95);
+  opacity: 0;
+  animation: slideFadeZoom 0.8s ease-out forwards;
 }
 
-.section h2 {
-  font-size: 20px;
-  color: var(--accent);
-  margin-bottom: 15px;
+/* Animation keyframes */
+@keyframes slideFadeZoom {
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+e
+
+
+/* === LOGO Agrandi et espacé === */
+.sidebar .logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px; /* Beaucoup plus d'espace */
 }
 
-.section ul {
+.sidebar .logo-container img {
+  width: 170px; /* Beaucoup plus grand */
+  height: auto;
+}
+
+/* === SECTION TITLES ("Salon", "Agenda") === */
+.sidebar .section h2 {
+  font-size: 22px; /* Plus grand et solide */
+  color: var(--accent-color);
+  margin-bottom: 20px; /* Plus d'espace après */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* === LIST ITEMS === */
+.sidebar .section ul {
   list-style: none;
+  padding-left: 0;
 }
 
-.section li {
+.sidebar .section li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: 17px; /* Un peu plus grand */
   cursor: pointer;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.3s;
 }
 
-.section li:hover {
-  color: var(--accent);
+.sidebar .section li:hover {
+  color: var(--accent-color);
+  transform: translateX(5px);
 }
 
-/* Bottom sidebar icons */
-.bottom-icons {
+/* === Bottom Profile Icon === */
+.sidebar .bottom-icons {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 50px;
 }
 
-.profile {
-  background-color: var(--accent);
-  color: var(--white);
-  width: 36px;
-  height: 36px;
-  font-weight: bold;
-  font-size: 18px;
+.sidebar .profile {
+  background-color: var(--accent-color);
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  font-weight: bold;
 }
-
-.icon {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.icon:hover {
-  color: var(--accent);
-}
-
-/* =================== */
+/* ==================== */
 /* === HEADER === */
-/* =================== */
+/* ==================== */
 .header {
   position: fixed;
   top: 0;
   left: 250px;
   right: 0;
   height: 70px;
-  background: transparent;
+  background: transparent; /* On garde transparent pour l'instant */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 60px;
-  z-index: 999;
+  padding: 0 40px;
+  z-index: 10;
 }
 
+/* Conteneur de la search bar */
+.header .search-bar-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+/* Boutons Playlist et Historique */
 .header-buttons {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .header-buttons button {
   background: none;
   border: none;
-  color: var(--white);
+  color: var(--text-color);
   font-size: 18px;
   cursor: pointer;
-  position: relative;
-  padding-bottom: 5px;
+  transition: color 0.3s, transform 0.3s;
 }
 
 .header-buttons button:hover {
-  color: var(--accent);
+  color: var(--accent-color);
+  transform: scale(1.05);
 }
 
-.header-buttons button:hover::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-  background-color: var(--accent);
-}
-
-/* =================== */
+/* ==================== */
 /* === SEARCH BAR === */
-/* =================== */
-.custom-search-bar-container {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  max-width: 600px;
-}
-
-.youtube-search-bar {
-  display: flex;
+/* ==================== */
+.search-bar-container input {
   width: 100%;
-  background-color: var(--dark-gray);
-  border-radius: 9999px;
-  overflow: hidden;
-  border: 1px solid var(--gray);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.youtube-search-bar input {
-  flex-grow: 1;
+  max-width: 500px;
   padding: 12px 20px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--white);
   font-size: 16px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  background-color: #222; /* Fond solide sans flou */
+  color: #fff;
+  outline: none;
+  box-shadow: none; /* Enlever les effets de flou/ombre inutiles */
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.youtube-search-bar button {
-  background-color: var(--primary);
-  border: none;
-  padding: 0 20px;
-  color: var(--white);
-  font-size: 18px;
-  cursor: pointer;
-  transition: background 0.3s;
+.search-bar-container input::placeholder {
+  color: #bbb;
 }
 
-.youtube-search-bar button:hover {
-  background-color: var(--primary-hover);
+.search-bar-container input:focus {
+  background-color: #333; /* Un peu plus clair au focus */
+  transform: scale(1.03); /* Léger agrandissement sympa */
 }
 
-/* =================== */
-/* === FLOATING BUTTONS === */
-/* =================== */
-.floating-buttons {
-  position: fixed;
-  bottom: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 100px;
-  z-index: 1000;
-}
-
-.left-side {
-  margin-left: 250px;
-  display: flex;
-  gap: 20px;
-}
-
-.right-side {
-  margin-right: 150px;
-}
-
-.round-orange-button {
-  background-color: var(--accent);
+.search-bar-container button {
+  margin-left: -45px;
+  padding: 12px;
+  background-color: var(--primary-color);
   border: none;
   border-radius: 50%;
-  padding: 15px;
-  color: var(--white);
-  font-size: 22px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-.round-orange-button:hover {
-  background-color: darkorange;
+.search-bar-container button:hover {
+  background-color: #3b36c8;
+  transform: scale(1.1);
 }
 
-/* =================== */
+.search-bar-container button svg {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+/* ==================== */
 /* === YOUTUBE WRAPPER === */
-/* =================== */
+/* ==================== */
 .youtube-wrapper {
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding: 100px 40px 40px 40px;
+  align-items: center;
+  padding: 40px;
+  margin-left: 250px;
+  min-height: 100vh;
 }
 
 .youtube-box {
@@ -266,26 +261,34 @@ body {
   max-width: 880px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
-  overflow: hidden;
 }
 
-/* =================== */
-/* === PLAYER === */
-/* =================== */
-.youtube-player-wrapper iframe {
+/* ==================== */
+/* === YOUTUBE PLAYER === */
+/* ==================== */
+.youtube-player-wrapper {
   width: 100%;
   height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.youtube-player-wrapper iframe {
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
   border: none;
 }
 
-/* =================== */
+/* ==================== */
 /* === VIDEO LIST === */
-/* =================== */
+/* ==================== */
 .video-list-scrollable {
   overflow-y: auto;
-  max-height: 280px;
+  max-height: 300px;
 }
 
 .video-list-scrollable::-webkit-scrollbar {
@@ -293,99 +296,135 @@ body {
 }
 
 .video-list-scrollable::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
+  background-color: var(--accent-color);
   border-radius: 4px;
 }
 
-.video-item {
+/* ==================== */
+/* === FLOATING BUTTONS === */
+/* ==================== */
+/* Floating Buttons Section */
+.floating-buttons {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 20;
+}
+
+/* Container principal */
+.fab-container {
+  position: relative;
+}
+
+/* Bouton principal */
+.main-fab {
+  background-color: var(--accent-color);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 28px;
   display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 10px;
-  transition: all 0.2s ease;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s, transform 0.2s ease;
+  animation: pulse 2s infinite ease-in-out; /* Animation pulse */
 }
 
-.video-item:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
+/* Animation légère de respiration */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.video-thumbnail {
-  width: 120px;
-  border-radius: 8px;
+/* Animation au hover */
+.main-fab:hover {
+  background-color: darkorange;
 }
 
-.video-item p {
-  font-size: 15px;
-  color: var(--white);
-  margin: 0;
-  font-weight: 500;
+/* Menu caché par défaut */
+.fab-options {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* Espacement réduit */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
 }
 
-/* =================== */
-/* === RESPONSIVE === */
-/* =================== */
-@media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 999;
-  }
+/* Déclenchement de l'affichage au hover */
+.fab-container:hover .fab-options,
+.main-fab:focus + .fab-options,
+.main-fab:hover + .fab-options {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 
-  .sidebar.active {
-    transform: translateX(0);
-  }
+/* Petits boutons flottants */
+.option-button {
+  background-color: var(--accent-color);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: background-color 0.3s, transform 0.3s;
+}
 
-  .menu-toggle {
-    display: block;
-  }
+/* Hover sur petits boutons */
+.option-button:hover {
+  background-color: darkorange;
+  transform: scale(1.1);
+}
 
-  .header {
-    left: 0;
-    flex-direction: column;
-    gap: 10px;
-    height: auto;
-    padding: 10px 20px;
-  }
+/* Tooltip styles */
+.option-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 60px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
 
-  .custom-search-bar-container {
-    margin-left: 0;
-    max-width: 90%;
-  }
+/* Afficher le tooltip au hover */
+.option-button:hover::after {
+  opacity: 1;
+}
 
-  .youtube-wrapper {
-    flex-direction: column;
-    align-items: center;
-    padding: 80px 20px;
-  }
-
-  .youtube-box {
-    padding: 15px;
-    max-width: 100%;
-  }
-
-  .youtube-player-wrapper iframe {
-    height: 220px;
-  }
-
-  .video-thumbnail {
-    width: 90px;
-  }
-
-  .floating-buttons {
-    flex-direction: column;
-    align-items: flex-end;
-    right: 10px;
-    left: auto;
-    margin: 0;
-    padding: 0;
-    gap: 10px;
-  }
+/* ==================== */
+/* === GENERAL EFFECTS === */
+/* ==================== */
+.search-bar-container button:focus {
+  outline: none;
+  transform: scale(1.1);
 }
