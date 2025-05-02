@@ -37,7 +37,7 @@ socketHandler(io);
 app.use(errorHandler);
 
 // Démarrage serveur
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {
   console.log(`🚀 Backend démarré sur le port ${PORT}`);
 });
