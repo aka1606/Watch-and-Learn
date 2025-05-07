@@ -1,109 +1,129 @@
-import React, { useEffect, useRef } from "react";
-import { io } from "socket.io-client";
+import React, { useEffect, useRef, useState } from "react";
 
-const socket = io("http://localhost:5000");
-
-const YoutubePlayer = ({ videoId }) => {
-  const playerRef = useRef(null);
+const YoutubePlayer = ({ videoId, socket }) => {
+  const containerRef = useRef(null);
   const ytPlayer = useRef(null);
-  const pendingPlay = useRef(false);
-  const seekingBySocket = useRef(false);
+  const isRemoteAction = useRef(false);
+  const [isReady, setIsReady] = useState(false);
+
+  const onPlayerStateChange = (event) => {
+    if (!ytPlayer.current) return;
+
+    const state = event.data;
+    if (state === window.YT.PlayerState.PLAYING && !isRemoteAction.current) {
+      socket?.emit("playVideo");
+    } else if (
+      state === window.YT.PlayerState.PAUSED &&
+      !isRemoteAction.current
+    ) {
+      socket?.emit("pauseVideo");
+    }
+  };
+
+  const emitSeek = () => {
+    if (!ytPlayer.current || isRemoteAction.current) return;
+    const currentTime = ytPlayer.current.getCurrentTime();
+    socket?.emit("seekVideo", currentTime);
+  };
+
+  const createPlayer = () => {
+    if (ytPlayer.current || !containerRef.current || !window.YT) return;
+
+    ytPlayer.current = new window.YT.Player(containerRef.current, {
+      height: "390",
+      width: "640",
+      videoId: videoId || "",
+      playerVars: {
+        modestbranding: 1,
+        rel: 0,
+        autoplay: 0,
+      },
+      events: {
+        onReady: () => setIsReady(true),
+        onStateChange: onPlayerStateChange,
+      },
+    });
+  };
 
   useEffect(() => {
-    if (!playerRef.current) return;
+    if (!window.YT) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(tag);
 
-    const loadYoutubeApi = () => {
-      if (!window.YT) {
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
-        window.onYouTubeIframeAPIReady = createPlayer;
-      } else {
+      window.onYouTubeIframeAPIReady = () => {
         createPlayer();
-      }
-    };
-
-    const createPlayer = () => {
-      ytPlayer.current = new window.YT.Player(playerRef.current, {
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
-        },
-        playerVars: {
-          autoplay: 0,
-          controls: 1,
-          enablejsapi: 1,
-        },
-      });
-    };
-
-    const onPlayerReady = () => {
-      socket.on("playVideo", () => {
-        ytPlayer.current?.playVideo();
-      });
-
-      socket.on("pauseVideo", () => {
-        ytPlayer.current?.pauseVideo();
-      });
-
-      socket.on("seekTo", (seconds) => {
-        if (ytPlayer.current) {
-          seekingBySocket.current = true;
-          ytPlayer.current.seekTo(seconds, true);
-        }
-      });
-
-      socket.on("videoSelected", ({ videoId, isPlaying }) => {
-        if (ytPlayer.current && ytPlayer.current.loadVideoById) {
-          pendingPlay.current = isPlaying;
-          ytPlayer.current.loadVideoById(videoId);
-          ytPlayer.current.mute();
-        }
-      });
-    };
-
-    loadYoutubeApi();
+      };
+    } else {
+      createPlayer();
+    }
 
     return () => {
-      socket.off("playVideo");
-      socket.off("pauseVideo");
-      socket.off("seekTo");
-      socket.off("videoSelected");
+      ytPlayer.current?.destroy();
+      ytPlayer.current = null;
     };
   }, []);
 
   useEffect(() => {
-    if (ytPlayer.current && ytPlayer.current.loadVideoById) {
-      ytPlayer.current.loadVideoById(videoId);
-      ytPlayer.current.mute();
-      pendingPlay.current = true;
+    if (ytPlayer.current && videoId) {
+      ytPlayer.current.cueVideoById(videoId);
     }
   }, [videoId]);
 
-  const onPlayerStateChange = (event) => {
-    if (event.data === window.YT.PlayerState.PLAYING) {
-      if (!seekingBySocket.current) {
-        const currentTime = ytPlayer.current?.getCurrentTime();
-        if (currentTime !== undefined) {
-          socket.emit("seekTo", currentTime);
-        }
-      } else {
-        seekingBySocket.current = false;
+  useEffect(() => {
+    if (!socket) return;
+
+    const handlePlay = () => {
+      isRemoteAction.current = true;
+      ytPlayer.current?.mute();
+      ytPlayer.current?.playVideo();
+      setTimeout(() => (isRemoteAction.current = false), 300);
+    };
+
+    const handlePause = () => {
+      isRemoteAction.current = true;
+      ytPlayer.current?.pauseVideo();
+      setTimeout(() => (isRemoteAction.current = false), 300);
+    };
+
+    const handleSeek = (time) => {
+      isRemoteAction.current = true;
+      ytPlayer.current?.seekTo(time, true);
+      setTimeout(() => (isRemoteAction.current = false), 300);
+    };
+
+    socket.on("playVideo", handlePlay);
+    socket.on("pauseVideo", handlePause);
+    socket.on("seekVideo", handleSeek);
+
+    return () => {
+      socket.off("playVideo", handlePlay);
+      socket.off("pauseVideo", handlePause);
+      socket.off("seekVideo", handleSeek);
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (ytPlayer.current?.getPlayerState() === 1) {
+        emitSeek();
       }
-      socket.emit("playVideo");
-    } else if (event.data === window.YT.PlayerState.PAUSED) {
-      socket.emit("pauseVideo");
-    } else if (event.data === window.YT.PlayerState.CUED) {
-      if (pendingPlay.current) {
-        ytPlayer.current?.playVideo();
-        pendingPlay.current = false;
-      }
-    }
-  };
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="youtube-player-wrapper">
-      <div id="player" ref={playerRef}></div>
+      {!isReady && (
+        <div className="youtube-placeholder">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+            alt="YouTube"
+            className="youtube-logo"
+          />
+        </div>
+      )}
+      <div ref={containerRef} className="youtube-iframe-container" />
     </div>
   );
 };

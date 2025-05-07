@@ -26,7 +26,7 @@ body,
   width: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--background-color);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 /* ==================== */
@@ -40,14 +40,14 @@ body,
 }
 
 /* ==================== */
-/* === SIDEBAR FINALISÉ */
+/* === SIDEBAR === */
 /* ==================== */
 .sidebar {
   width: 260px;
   background: linear-gradient(
     to bottom,
-    rgba(13, 13, 26, 0.85) 0%,
-    rgba(13, 13, 26, 0.95) 100%
+    rgba(13, 13, 26, 0.85),
+    rgba(13, 13, 26, 0.95)
   );
   color: var(--text-color);
   display: flex;
@@ -62,46 +62,38 @@ body,
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(4px);
   z-index: 11;
-
-  /* === Animation Slide + Fade + Zoom === */
   transform: translateX(-40px) scale(0.95);
   opacity: 0;
   animation: slideFadeZoom 0.8s ease-out forwards;
 }
 
-/* Animation keyframes */
 @keyframes slideFadeZoom {
   to {
     transform: translateX(0) scale(1);
     opacity: 1;
   }
 }
-e
 
-
-/* === LOGO Agrandi et espacé === */
 .sidebar .logo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px; /* Beaucoup plus d'espace */
+  margin-bottom: 50px;
 }
 
 .sidebar .logo-container img {
-  width: 170px; /* Beaucoup plus grand */
+  width: 170px;
   height: auto;
 }
 
-/* === SECTION TITLES ("Salon", "Agenda") === */
 .sidebar .section h2 {
-  font-size: 22px; /* Plus grand et solide */
+  font-size: 22px;
   color: var(--accent-color);
-  margin-bottom: 20px; /* Plus d'espace après */
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
 
-/* === LIST ITEMS === */
 .sidebar .section ul {
   list-style: none;
   padding-left: 0;
@@ -112,7 +104,7 @@ e
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
-  font-size: 17px; /* Un peu plus grand */
+  font-size: 17px;
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
 }
@@ -122,7 +114,6 @@ e
   transform: translateX(5px);
 }
 
-/* === Bottom Profile Icon === */
 .sidebar .bottom-icons {
   display: flex;
   align-items: center;
@@ -141,6 +132,156 @@ e
   justify-content: center;
   font-weight: bold;
 }
+
+/* ==================== */
+/* === SCREEN SHARE BUTTON === */
+/* ==================== */
+.screen-share-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.screen-share-button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.screen-share-button.active {
+  background-color: rgba(255, 0, 0, 0.08);
+  border-radius: 50%;
+  animation: pulse-button 1.5s infinite;
+}
+
+@keyframes pulse-button {
+  0% {
+    box-shadow: 0 0 0px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255, 0, 0, 0.3);
+  }
+}
+
+.screen-share-indicator {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: red;
+  animation: pulse-indicator 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-indicator {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
+.icon-slash {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 22px;
+  height: 2px;
+  background: red;
+  transform: rotate(-45deg);
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.icon {
+  font-size: 22px;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+/* ==================== */
+/* === SCREEN VIEWER === */
+/* ==================== */
+.floating-screen-viewer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  height: 200px;
+  background-color: #000;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.floating-screen-viewer.expanded {
+  width: 600px;
+  height: 400px;
+}
+
+.floating-screen-viewer.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.floating-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+.drag-bar {
+  height: 25px;
+  cursor: move;
+  background: rgba(255, 255, 255, 0.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.viewer-controls {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+
+.viewer-controls button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  padding: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.viewer-controls button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 /* ==================== */
 /* === HEADER === */
 /* ==================== */
@@ -150,7 +291,7 @@ e
   left: 250px;
   right: 0;
   height: 70px;
-  background: transparent; /* On garde transparent pour l'instant */
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -158,7 +299,6 @@ e
   z-index: 10;
 }
 
-/* Conteneur de la search bar */
 .header .search-bar-container {
   flex-grow: 1;
   display: flex;
@@ -167,7 +307,6 @@ e
   margin-right: 20px;
 }
 
-/* Boutons Playlist et Historique */
 .header-buttons {
   display: flex;
   align-items: center;
@@ -198,10 +337,9 @@ e
   font-size: 16px;
   border: 2px solid var(--primary-color);
   border-radius: 50px;
-  background-color: #222; /* Fond solide sans flou */
+  background-color: #222;
   color: #fff;
   outline: none;
-  box-shadow: none; /* Enlever les effets de flou/ombre inutiles */
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
@@ -210,8 +348,8 @@ e
 }
 
 .search-bar-container input:focus {
-  background-color: #333; /* Un peu plus clair au focus */
-  transform: scale(1.03); /* Léger agrandissement sympa */
+  background-color: #333;
+  transform: scale(1.03);
 }
 
 .search-bar-container button {
@@ -237,6 +375,7 @@ e
   height: 20px;
   color: white;
 }
+
 /* ==================== */
 /* === YOUTUBE WRAPPER === */
 /* ==================== */
@@ -303,7 +442,6 @@ e
 /* ==================== */
 /* === FLOATING BUTTONS === */
 /* ==================== */
-/* Floating Buttons Section */
 .floating-buttons {
   position: fixed;
   bottom: 30px;
@@ -311,12 +449,10 @@ e
   z-index: 20;
 }
 
-/* Container principal */
 .fab-container {
   position: relative;
 }
 
-/* Bouton principal */
 .main-fab {
   background-color: var(--accent-color);
   color: white;
@@ -331,10 +467,9 @@ e
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   transition: background-color 0.3s, transform 0.2s ease;
-  animation: pulse 2s infinite ease-in-out; /* Animation pulse */
+  animation: pulse 2s infinite ease-in-out;
 }
 
-/* Animation légère de respiration */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -347,12 +482,10 @@ e
   }
 }
 
-/* Animation au hover */
 .main-fab:hover {
   background-color: darkorange;
 }
 
-/* Menu caché par défaut */
 .fab-options {
   position: absolute;
   bottom: 70px;
@@ -360,14 +493,13 @@ e
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px; /* Espacement réduit */
+  gap: 12px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
   transition: all 0.4s ease;
 }
 
-/* Déclenchement de l'affichage au hover */
 .fab-container:hover .fab-options,
 .main-fab:focus + .fab-options,
 .main-fab:hover + .fab-options {
@@ -376,7 +508,6 @@ e
   transform: translateY(0);
 }
 
-/* Petits boutons flottants */
 .option-button {
   background-color: var(--accent-color);
   color: white;
@@ -394,13 +525,11 @@ e
   transition: background-color 0.3s, transform 0.3s;
 }
 
-/* Hover sur petits boutons */
 .option-button:hover {
   background-color: darkorange;
   transform: scale(1.1);
 }
 
-/* Tooltip styles */
 .option-button::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -416,15 +545,65 @@ e
   white-space: nowrap;
 }
 
-/* Afficher le tooltip au hover */
 .option-button:hover::after {
   opacity: 1;
 }
+.youtube-player-wrapper {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/* ==================== */
-/* === GENERAL EFFECTS === */
-/* ==================== */
-.search-bar-container button:focus {
-  outline: none;
+.youtube-placeholder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  border-radius: 12px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.youtube-logo {
+  width: 120px;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 4px red);
+  transition: transform 0.3s ease;
+}
+.youtube-logo:hover {
   transform: scale(1.1);
+}
+
+.youtube-iframe-container {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.youtube-iframe-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.youtube-iframe-container.visible {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

@@ -1,69 +1,82 @@
-// ✅ FICHIER : src/components/ScreenViewer.jsx
-
 import React, { useEffect, useRef, useState } from "react";
-import useScreenShare from "./hooks/useScreenShare";
+import { Maximize2, Minimize2, EyeOff, Eye } from "lucide-react";
+import Draggable from "react-draggable";
 
-const ScreenViewer = ({ stream, onStop }) => {
+const ScreenViewer = ({ stream }) => {
   const videoRef = useRef(null);
-  const [isEnded, setIsEnded] = useState(false);
+  const [mode, setMode] = useState("normal");
 
   useEffect(() => {
-    if (videoRef.current && stream) {
-      videoRef.current.srcObject = stream;
-      setIsEnded(false);
-
-      const [track] = stream.getTracks();
-      if (track) {
-        track.onended = () => {
-          setIsEnded(true);
-          videoRef.current.srcObject = null;
-        };
-      }
+    const video = videoRef.current;
+    if (video && stream) {
+      video.srcObject = stream;
+      video.onloadedmetadata = () => {
+        video
+          .play()
+          .catch((err) => console.warn("⚠️ Lecture impossible :", err.message));
+      };
     }
-
     return () => {
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-      }
+      if (videoRef.current) videoRef.current.srcObject = null;
     };
   }, [stream]);
 
-  if (isEnded || !stream) {
+  const toggleExpand = () => {
+    setMode((prev) => (prev === "expanded" ? "normal" : "expanded"));
+  };
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      videoRef.current?.parentElement?.requestFullscreen?.();
+    }
+  };
+
+  const toggleHide = () => {
+    setMode((prev) => (prev === "hidden" ? "normal" : "hidden"));
+  };
+
+  if (mode === "hidden") {
     return (
-      <div
-        style={{ padding: 20, textAlign: "center", border: "1px solid #ccc" }}
+      <button
+        className="floating-toggle-button"
+        onClick={toggleHide}
+        title="Afficher le stream"
       >
-        <p>📴 Le partage d'écran a été interrompu.</p>
-        {onStop && (
-          <button
-            onClick={onStop}
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#333",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              marginTop: 10,
-              cursor: "pointer",
-            }}
-          >
-            Quitter le partage
-          </button>
-        )}
-      </div>
+        <Eye size={20} />
+      </button>
     );
   }
 
   return (
-    <div style={{ width: "100%", height: "auto" }}>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted
-        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-      />
-    </div>
+    <Draggable handle=".drag-bar" bounds="body">
+      <div className={`floating-screen-viewer ${mode}`}>
+        <div className="drag-bar">{/* barre vide pour le drag */}</div>
+        <div className="controls">
+          <button onClick={toggleExpand} title="Agrandir / Réduire">
+            {mode === "expanded" ? (
+              <Minimize2 size={16} />
+            ) : (
+              <Maximize2 size={16} />
+            )}
+          </button>
+          <button onClick={toggleFullscreen} title="Plein écran">
+            ⛶
+          </button>
+          <button onClick={toggleHide} title="Cacher">
+            <EyeOff size={16} />
+          </button>
+        </div>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="floating-video"
+        />
+      </div>
+    </Draggable>
   );
 };
 

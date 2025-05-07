@@ -1,3 +1,4 @@
+// ✅ FICHIER : src/components/ScreenSharePreview.jsx
 import React, { useRef, useEffect, useState } from "react";
 
 const ScreenSharePreview = ({ stream, onStop }) => {
@@ -6,14 +7,18 @@ const ScreenSharePreview = ({ stream, onStop }) => {
   const [size, setSize] = useState({ width: 320, height: 180 });
   const [drag, setDrag] = useState({ x: 20, y: 20 });
 
-  // Apply stream to video
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = stream;
     }
+
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    };
   }, [stream]);
 
-  // Drag logic
   const handleMouseDown = (e) => {
     const startX = e.clientX;
     const startY = e.clientY;
@@ -53,7 +58,7 @@ const ScreenSharePreview = ({ stream, onStop }) => {
         boxShadow: "0 0 12px rgba(0,0,0,0.6)",
       }}
     >
-      {/* Barre du haut */}
+      {/* Barre de contrôle */}
       <div
         onMouseDown={handleMouseDown}
         style={{
@@ -83,6 +88,7 @@ const ScreenSharePreview = ({ stream, onStop }) => {
               color: "white",
               border: "none",
               borderRadius: "4px",
+              cursor: "pointer",
             }}
           >
             🔍
@@ -94,6 +100,7 @@ const ScreenSharePreview = ({ stream, onStop }) => {
               color: "white",
               border: "none",
               borderRadius: "4px",
+              cursor: "pointer",
             }}
           >
             ⛔
@@ -101,7 +108,7 @@ const ScreenSharePreview = ({ stream, onStop }) => {
         </div>
       </div>
 
-      {/* Video */}
+      {/* Vidéo */}
       <video
         ref={videoRef}
         autoPlay

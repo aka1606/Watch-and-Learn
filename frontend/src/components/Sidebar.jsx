@@ -10,7 +10,12 @@ import {
   FaMicrophone,
 } from "react-icons/fa";
 
-function Sidebar() {
+function Sidebar({ isSharing, startScreenShare, stopScreenShare }) {
+  const handleToggleShare = () => {
+    if (isSharing) stopScreenShare();
+    else startScreenShare();
+  };
+
   return (
     <aside className="sidebar">
       <div className="logo-container">
@@ -48,7 +53,17 @@ function Sidebar() {
 
       <div className="bottom-icons">
         <div className="profile">M</div>
-        <FaDesktop className="icon" />
+
+        <button
+          onClick={handleToggleShare}
+          className={`screen-share-button ${isSharing ? "active" : ""}`}
+          title={isSharing ? "Arrêter le partage" : "Partager l'écran"}
+        >
+          <FaDesktop className="icon" />
+          {!isSharing && <span className="icon-slash" />}
+          {isSharing && <span className="screen-share-indicator" />}
+        </button>
+
         <FaMicrophone className="icon" />
       </div>
     </aside>
