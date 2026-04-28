@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 // ⚠️ Ne pas mettre de slash à la fin !
 const SOCKET_SERVER_URL =
   window.location.protocol === "https:"
-    ? "wss://localhost:5000"
-    : "ws://localhost:5000";
+    ? "wss://localhost:5050"
+    : "ws://localhost:5050";
 
 let sharedSocket = null;
 
