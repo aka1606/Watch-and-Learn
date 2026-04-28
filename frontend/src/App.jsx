@@ -57,7 +57,7 @@ function App() {
       setHasSearched(false);
 
       const response = await axios.get(
-        "http://localhost:5050/api/youtube/videos",
+        `${import.meta.env.VITE_API_URL}/api/youtube/videos`,
         { params: { query } }
       );
 
@@ -78,7 +78,7 @@ function App() {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:5050/api/youtube/videos",
+        `${import.meta.env.VITE_API_URL}/api/youtube/videos`,
         { params: { query, pageToken: nextPageToken } }
       );
 

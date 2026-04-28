@@ -36,8 +36,8 @@ const getYoutubeVideos = async (req, res, next) => {
       nextPageToken: response.data.nextPageToken || null,
     });
   } catch (error) {
-    console.error("Erreur lors de la récupération YouTube:", error.message);
-    res.status(500).json({ error: "Erreur lors de l'appel à l'API YouTube" });
+    console.error("Erreur lors de la récupération YouTube:", error.response?.data || error.message);
+    res.status(500).json({ error: "Erreur lors de l'appel à l'API YouTube", details: error.response?.data });
   }
 };
 

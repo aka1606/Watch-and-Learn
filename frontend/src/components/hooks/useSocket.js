@@ -2,10 +2,7 @@ import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 
 // ⚠️ Ne pas mettre de slash à la fin !
-const SOCKET_SERVER_URL =
-  window.location.protocol === "https:"
-    ? "wss://localhost:5050"
-    : "ws://localhost:5050";
+const SOCKET_SERVER_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
 let sharedSocket = null;
 

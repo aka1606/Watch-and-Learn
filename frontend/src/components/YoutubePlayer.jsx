@@ -114,7 +114,7 @@ const YoutubePlayer = ({ videoId, socket }) => {
 
   return (
     <div className="youtube-player-wrapper">
-      {!isReady && (
+      {(!isReady || !videoId) && (
         <div className="youtube-placeholder">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
@@ -123,7 +123,10 @@ const YoutubePlayer = ({ videoId, socket }) => {
           />
         </div>
       )}
-      <div ref={containerRef} className="youtube-iframe-container" />
+      <div
+        ref={containerRef}
+        className={`youtube-iframe-container ${isReady && videoId ? "visible" : "hidden"}`}
+      />
     </div>
   );
 };

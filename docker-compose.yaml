@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # 1. Base de données MongoDB
+  db:
+    image: mongo:latest
+    container_name: mongodb_service
+    ports:
+      - "27017:27017" # Port local : Port conteneur
+    volumes:
+      - mongo-data:/data/db # Sauvegarder les données même si le conteneur s'arrête
+
+  # 2. Le Backend Node.js
+  backend:
+    build: ./backend
+    container_name: backend_service
+    env_file:
+      - .env
+    ports:
+      - "5001:5050" # Port Mac : Port Express
+    environment:
+      - MONGODB_URI=mongodb://db:27017/watch_and_learn_db
+    depends_on:
+      - db
+
+  # 3. Le Frontend React (Vite)
+  frontend:
+    build: ./frontend
+    container_name: frontend_service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    # Permet le rechargement à chaud (Hot Reload) pendant le dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:5001
+
+volumes:
+  mongo-data:
