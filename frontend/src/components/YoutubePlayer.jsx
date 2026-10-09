@@ -27,8 +27,11 @@ const YoutubePlayer = ({ videoId, socket }) => {
   };
 
   const createPlayer = () => {
-    if (ytPlayer.current || !containerRef.current || !window.YT) return;
-
+    if (ytPlayer.current || !containerRef.current || !window.YT) {
+      console.log("⚠️ createPlayer bloqué — player existe déjà ou YT pas prêt");
+      return;
+    }
+    console.log("🎬 Création du player YouTube pour videoId :", videoId);
     ytPlayer.current = new window.YT.Player(containerRef.current, {
       height: "390",
       width: "640",
@@ -39,22 +42,29 @@ const YoutubePlayer = ({ videoId, socket }) => {
         autoplay: 0,
       },
       events: {
-        onReady: () => setIsReady(true),
+        onReady: () => {
+          console.log("✅ YouTube player prêt");
+          setIsReady(true);
+        },
         onStateChange: onPlayerStateChange,
+        onError: (e) => console.error("❌ Erreur YouTube player :", e.data),
       },
     });
   };
 
   useEffect(() => {
     if (!window.YT) {
+      console.log("📦 Chargement de l'API YouTube...");
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       document.body.appendChild(tag);
 
       window.onYouTubeIframeAPIReady = () => {
+        console.log("✅ API YouTube chargée");
         createPlayer();
       };
     } else {
+      console.log("✅ API YouTube déjà disponible");
       createPlayer();
     }
 
@@ -65,10 +75,13 @@ const YoutubePlayer = ({ videoId, socket }) => {
   }, []);
 
   useEffect(() => {
-    if (ytPlayer.current && videoId) {
+    if (ytPlayer.current && videoId && isReady) {
+      console.log("▶️ cueVideoById :", videoId);
       ytPlayer.current.cueVideoById(videoId);
+    } else {
+      console.log("⏳ cueVideoById ignoré — player prêt :", !!ytPlayer.current, "| videoId :", videoId, "| isReady :", isReady);
     }
-  }, [videoId]);
+  }, [videoId, isReady]);
 
   useEffect(() => {
     if (!socket) return;
@@ -104,13 +117,18 @@ const YoutubePlayer = ({ videoId, socket }) => {
   }, [socket]);
 
   useEffect(() => {
+    let lastTime = 0;
     const interval = setInterval(() => {
       if (ytPlayer.current?.getPlayerState() === 1) {
-        emitSeek();
+        const currentTime = ytPlayer.current.getCurrentTime();
+        if (!isRemoteAction.current && Math.abs(currentTime - lastTime) > 2) {
+          socket?.emit("seekVideo", currentTime);
+        }
+        lastTime = currentTime;
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [socket]);
 
   return (
     <div className="youtube-player-wrapper">

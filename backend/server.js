@@ -21,14 +21,14 @@ io.on("connection", (socket) => {
 
   // 🎥 YouTube Sync
   socket.on("selectVideo", ({ videoId, isPlaying }) => {
-    socket.broadcast.emit("videoSelected", { videoId, isPlaying });
+    socket.to(socket.roomId).emit("videoSelected", { videoId, isPlaying });
   });
 
-  socket.on("playVideo", () => socket.broadcast.emit("playVideo"));
-  socket.on("pauseVideo", () => socket.broadcast.emit("pauseVideo"));
+  socket.on("playVideo", () => socket.to(socket.roomId).emit("playVideo"));
+  socket.on("pauseVideo", () => socket.to(socket.roomId).emit("pauseVideo"));
   socket.on("seekVideo", (time) => {
     if (typeof time === "number" && time >= 0) {
-      socket.broadcast.emit("seekVideo", time);
+      socket.to(socket.roomId).emit("seekVideo", time);
     } else {
       console.error("Invalid time received for seekVideo:", time);
     }

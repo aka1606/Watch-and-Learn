@@ -26,20 +26,18 @@ const useSocket = () => {
       socket.connect();
     }
 
-    socket.on("connect", () => {
-      console.log("✅ Socket connecté :", socket.id);
-    });
+    const handleConnect = () => console.log("✅ Socket connecté :", socket.id);
+    const handleDisconnect = (reason) => console.warn("🔌 Déconnecté :", reason);
+    const handleError = (err) => console.error("❌ Erreur de connexion :", err.message);
 
-    socket.on("disconnect", (reason) => {
-      console.warn("🔌 Déconnecté :", reason);
-    });
-
-    socket.on("connect_error", (err) => {
-      console.error("❌ Erreur de connexion :", err.message);
-    });
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("connect_error", handleError);
 
     return () => {
-      console.log("ℹ️ Socket partagé, pas de déconnexion automatique");
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("connect_error", handleError);
     };
   }, []);
 

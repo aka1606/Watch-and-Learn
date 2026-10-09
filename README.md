@@ -15,7 +15,7 @@ Watch-and-Learn est une application interactive conçue pour faciliter l'apprent
 - **Backend** : Node.js, Express
 - **Base de données** : MongoDB
 - **Authentification** : JSON Web Tokens (JWT)
-- **Hébergement** : Docker, AWS
+- **Hébergement** : Docker
 
 ## Installation
 
